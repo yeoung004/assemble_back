@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Admin Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <!-- load bulma css -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- load fontawesome -->
+    <style>
+        body {
+            justify-content: center;
+            display: flex;
+        }
+        #wrap {
+            flex-basis: 600px;
+            margin: 80px;
+        }
+        .title {
+            padding: 10%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap">
+        <div class="jumbotron text-center text-primary">
+            <h1><span class="fa fa-hand-peace-o"></span> Hello world!</h1>
+            <p>Welcome to admin page!</p>
+        </div>
+        <form class="form-group form" method="post" action="/login">
+            <div class="mb-3">
+                <label for="id" class="text form-label"><span class="fa fa-id-badge"></span> Email address</label>
+                <input required type="text" class="form-control" name="id" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+                <label for="pwd" class="text form-label"><span class="fa fa-lock"></span> Password</label>
+                <input required type="password" class="form-control" name="pwd">
+            </div>
+            <button type="submit" class="btn btn-outline-primary">Submit</button>
+        </form>
+    </div>
+</body>
+
+</html>

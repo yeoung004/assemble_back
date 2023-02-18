@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Admin Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <!-- load bulma css -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- load fontawesome -->
+    <style>
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: no-repeat Linear-gradient(0deg, rgba(131, 234, 241, 1) 0%, rgba(99, 164, 255, 1) 78%)
+        }
+
+        body {
+            background: none;
+        }
+
+        #wrap {
+            margin: 80px;
+        }
+
+        .title {
+            padding: 10%;
+        }
+
+        .form-group {
+            height: 100%;
+            width: 90%;
+            margin: 0 auto;
+
+        }
+
+        .form-container {
+            flex-wrap: wrap-reverse;
+            display: flex;
+        }
+
+        .push-group {
+            width: 40%;
+            flex: 1 0 500px;
+        }
+
+        .user-group {
+            flex: 1 0 500px;
+            width: 40%;
+            margin-left: 10px;
+            margin-bottom: 10px;
+        }
+
+        .list-group {
+            max-height: 500px;
+            border-radius: 10px;
+            overflow-y: scroll;
+        }
+
+        .user-group li {
+            padding-left: 2rem;
+        }
+
+        .text {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="/logout" class="btn btn-outline-light" style="position: absolute; right: 100px; top: 10px;">Logout</a>
+    <div id="wrap">
+        <h1 class="text text-center card-title">Push Notification</h1>
+        <form class="form-group form" method="post" action="/push" onsubmit="return pushNofitication()">
+            <div class="form-container">
+                <div class="push-group">
+                    <div class="mb-3">
+                        <label for="title" class="text form-label"><span class="fa fa-file-text"></span> Title</label>
+                        <textarea aria-multiline="true" required type="text" id="title" class="form-control"
+                            name="title" aria-describedby="emailHelp"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="body" class="text form-label"><span class="fa fa-keyboard-o"></span> Body</label>
+                        <textarea aria-multiline="true" id="body" required class="form-control" name="body"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="pwd" class="text form-label"><span class="fa fa-calendar-check-o"></span>
+                            Schedule</label>
+                        <input required type="datetime-local" class="form-control" name="schedule">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="file" class="text col-form-label"><span class="fa fa-file"></span> Image</label>
+                        <input style="background-color: white;border-radius: 5px; width: 100%; padding: 10px; display: block;" type="file" name="image" id="file" accept="image/*">
+                    </div>
+                    <button type="submit" id="push" class="btn btn-success w-100">Send</button>
+                </div>
+                <div class="list-group-flush user-group">
+                    <div style="display: flex; justify-content: space-between;">
+                        <label for="list-group" class="text form-label">
+                            <span class="fa fa-user"></span> User<p class="d-inline"> Selected user :
+                            <p class="d-inline" id="user_cnt">0</p>
+                            </p>
+                        </label>
+                        <span>
+                            <label for="list-group" class="text form-label">Send all of user</label>
+                            <input type="checkbox" name="all-user" id="all-user" onclick="checkAllUser()">
+                        </span>
+                    </div>
+                    <ul class="list-group">
+                        <% users.forEach(user=> { %>
+                            <li class="list-group-item">
+                                <input class="text form-check-input me-1" type="checkbox" onclick="countSelectedUser()"
+                                    value="<%= user.ID %>" name="user">
+                                <span>
+                                    <%= user.ID %>
+                                </span>|
+                                <span>
+                                    <%= user.USER_NAME %>
+                                </span>
+                            </li>
+                            <% }) %>
+                    </ul>
+                </div>
+            </div>
+    </div>
+    </div>
+</body>
+<script type="text/javascript">
+    let cnt = 0
+    const pushNofitication = () => {
+        if(cnt > 0)
+            return true
+        else{
+            alert('You have to select at least a user')
+            return false
+        }
+    }
+    const countSelectedUser = () => {
+        cnt = 0
+        document.getElementsByName("user").forEach(user => {
+            if (user.checked)
+                cnt += 1
+        })
+        document.getElementById('user_cnt').innerText = cnt
+    }
+    const checkAllUser = () => {
+        const allUserCheck = document.getElementById("all-user").checked
+        const users = document.getElementsByName("user")
+        cnt = 0
+        if (allUserCheck)
+            cnt = users.length
+        users.forEach((user, key) => {
+            user.checked = allUserCheck
+        })
+        document.getElementById('user_cnt').innerText = cnt
+    }
+</script>
+
+</html>
